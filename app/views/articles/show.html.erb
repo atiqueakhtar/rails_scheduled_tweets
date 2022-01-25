@@ -1,0 +1,40 @@
+<h1><%= @article.title %></h1>
+
+<small> Status: <%= @article.status %> </small>
+
+<p><%= @article.body %></p>
+
+<small> Article By: <%= @article.email %> </small>
+
+<% if session[:user_id] && @article.email == Current.user.email %>
+    <div>
+        <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-secondary mb-3" %> 
+        <%= button_to "Delete", article_path(@article), method: :delete, class: "btn btn-outline-secondary" %>      
+    </div>
+<% end %>
+
+<h3>Comments</h3>
+<% @article.comments.each do |comment| %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+<% end %>
+
+<h4>Add a comment:</h4>
+<%= form_with model: [ @article, @article.comments.build ] do |form| %>
+
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+
+<% end %>
