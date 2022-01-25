@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :comments
   end
 
-  get "my_articles", to: "my_articles#index"
-  get "other_articles", to: "other_articles#index"
-  get "archived_articles", to: "archived_articles#index"
+  get "my_articles", to: "articles#my_articles"
+  get "other_articles", to: "articles#other_articles"
+  get "archived_articles", to: "articles#archived_articles"
 end

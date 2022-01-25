@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
     end
 
     def create
-      @article = Article.new(title: params[:article][:title], body: params[:article][:body], status: params[:article][:status], email: Current.user.email)
+      @article = Article.new(title: params[:article][:title], body: params[:article][:body], status: params[:article][:status], email: Current.user.email, user_id: Current.user.id)
   
       if @article.save
         redirect_to root_path, notice: "Article created successfully!"
@@ -46,6 +46,21 @@ class ArticlesController < ApplicationController
       @article.destroy
   
       redirect_to root_path, notice: "Article deleted successfully!"
+    end
+
+    def my_articles
+        # @articles = Article.where("email = ? AND (status = ? OR status = ?)", Current.user.email, "public", "private")
+        @articles = Current.user.articles.public_private_articles
+    end
+
+    def other_articles
+        # @articles = Article.where("email != ? AND status = ?", Current.user.email, "public")
+        @articles = Article.not_public_users
+    end
+
+    def archived_articles
+        # @articles = Article.where("email = ? AND status = ?", Current.user.email, "archived")
+        @articles = Current.user.articles.archived
     end
   
     private
