@@ -51,7 +51,7 @@ class ArticlesController < ApplicationController
 
     def other_articles
         # @articles = Article.where("email != ? AND status = ?", Current.user.email, "public")
-        @articles = Article.other_public_users
+        @articles = Article.published.other_users
     end
 
     def archived_articles
