@@ -7,8 +7,8 @@ class Article < ApplicationRecord
 
     scope :published, -> { where(status: "public") }
     scope :archived, -> { where(status: "archived") }
-    scope :not_public_users, -> { where("email != ? AND status = ?", Current.user.email, "public") }
-    scope :public_private_articles, -> { where("status = ? OR status = ?", "public", "private") }
+    scope :other_public_users, -> { where("user_id != ? and status = ?", Current.user.id, "public") }
+    scope :public_private_articles, -> { where(status: ["public", "private"]) }
     # def self.published
     #     where(status: "public")
     # end

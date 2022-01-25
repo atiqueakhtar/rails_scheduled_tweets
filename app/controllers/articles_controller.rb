@@ -1,12 +1,8 @@
 class ArticlesController < ApplicationController
     def index
-      @articles = Article.where("status = ?", "public")
+      @articles = Article.published
     end
-    # def index
-    #     if session[:user_id]
-    #         @user = User.find_by(id: session[:user_id]) 
-    #     end
-    # end
+    
     def show
       @article = Article.find(params[:id])
     end
@@ -17,7 +13,7 @@ class ArticlesController < ApplicationController
     end
 
     def create
-      @article = Article.new(title: params[:article][:title], body: params[:article][:body], status: params[:article][:status], email: Current.user.email, user_id: Current.user.id)
+      @article = Article.new(title: params[:article][:title], body: params[:article][:body], status: params[:article][:status], user_id: Current.user.id)
   
       if @article.save
         redirect_to root_path, notice: "Article created successfully!"
@@ -55,7 +51,7 @@ class ArticlesController < ApplicationController
 
     def other_articles
         # @articles = Article.where("email != ? AND status = ?", Current.user.email, "public")
-        @articles = Article.not_public_users
+        @articles = Article.other_public_users
     end
 
     def archived_articles

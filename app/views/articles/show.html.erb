@@ -4,9 +4,9 @@
 
 <p><%= @article.body %></p>
 
-<small> Article By: <%= @article.email %> </small>
+<small> Article By: <%= @article.user.email %> </small>
 
-<% if session[:user_id] && @article.email == Current.user.email %>
+<% if session[:user_id] && @article.user.email == Current.user.email %>
     <div>
         <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-secondary mb-3" %> 
         <%= button_to "Delete", article_path(@article), method: :delete, class: "btn btn-outline-secondary" %>      
@@ -17,7 +17,7 @@
 <% @article.comments.each do |comment| %>
   <p>
     <strong>Commenter:</strong>
-    <%= comment.commenter %>
+    <%= comment.user.email %>
   </p>
 
   <p>
